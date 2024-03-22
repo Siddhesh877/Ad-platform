@@ -36,8 +36,7 @@ const viewerSchema = new mongoose.Schema({
             required: true
         }
     },
-    intrests: [String],
-
+    // interests: [String],
     createdAt: { type: Date, default: Date.now }
 });
 
