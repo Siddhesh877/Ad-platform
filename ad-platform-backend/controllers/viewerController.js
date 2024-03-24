@@ -77,8 +77,9 @@ catch(error){
 //current viewer
 const currentViewer = async (req, res) => {
     try{
-        const viewer = await Viewer.findById(req.viewer._id).select('-password');
+        const viewer = await Viewer.findById(req.userId).select('-password');
         res.json(viewer);
+        console.log(viewer);
     }
     catch(error){
         console.error(error);
