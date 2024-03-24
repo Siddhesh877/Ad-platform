@@ -5,15 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
-
 // const jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZmQ5ZWQ0NGQ1YWQ5NDdmZDMwMWM0MiIsImlhdCI6MTcxMTI3MDg5MCwiZXhwIjoxNzExMzU3MjkwfQ.IX4Y2XfoAojBFl3EoJ72ZYZkgFEo5TRCJED9D1LnIqw"
 const jwtToken = localStorage.getItem('token');
 
