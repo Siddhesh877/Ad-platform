@@ -54,11 +54,12 @@ const loginBusiness = async (req, res) => {
         if(business && (await bcrypt.compare(password, business.password))){
             const token = jwt.sign(
                 {id: business._id},
-                process.env.SECRET-KEY,
+                process.env.SECRETKEY,
                 {
                     expiresIn: '1d'
                 }
             );
+            
             res.status(200).json({token,message: 'Business logged in'});
 
         }
@@ -88,7 +89,7 @@ const loginBusiness = async (req, res) => {
 //get the current business
 const currentBusiness = async (req, res) => {
     try {
-        const business = await Business.findById(req.business._id).select('-password');
+        const business = await Business.findById(req.userId).select('-password');
         if (business) {
             res.json(business);
         }
@@ -136,4 +137,64 @@ const createAd = async(req, res) => {
 
 }
 
-module.exports = { registerBusiness, loginBusiness, currentBusiness, createAd};
+const getAds = async(req, res) => {
+    try{
+        const businessId = req.userId;
+        const ads = await Ad.find({business: businessId});
+        if(ads){
+            res.status(200).json(ads);
+        }
+        else{
+            res.status(400).json({message: 'No ads found'});
+        }
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({message: 'Server Error'});
+    }
+
+}
+
+const deleteAd = async(req, res) => {
+    try {
+        const adId = req.params.id;
+        const businessId = req.userId;
+
+        const ad = await Ad.findById(adId);
+
+        if(ad) {
+            if(ad.business.toString() === businessId) {
+                await Ad.deleteOne({ _id: adId });
+                res.status(200).json({ message: 'Ad removed' });
+            } else {
+                res.status(401).json({ message: 'Unauthorized' });
+            }
+        } else {
+            res.status(404).json({ message: 'Ad not found' });
+        }
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+const updateAd = async(req, res) => {
+    try {
+        const adId = req.params.id;
+        const data = req.body;
+        const ad = await Ad.findById(adId);
+        if(!ad) {
+            return res.status(404).json({ message: 'Ad not found' });
+        }
+        const updatedAd = await Ad.findByIdAndUpdate(
+            adId,
+            data,
+            { new: true }
+        );
+        res.status(200).json(updatedAd);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+module.exports = { registerBusiness, loginBusiness, currentBusiness, createAd, getAds, deleteAd, updateAd};

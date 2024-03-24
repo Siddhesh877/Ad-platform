@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const url = `mongodb+srv://Zenith:${process.env.MONGO-PASSWORD}@ad-platform.dvlkxts.mongodb.net/?retryWrites=true&w=majority&appName=ad-platform`;
+const url = `mongodb+srv://Zenith:${process.env.MONGOPASSWORD}@ad-platform.dvlkxts.mongodb.net/?retryWrites=true&w=majority&appName=ad-platform`;
 
 const connectDB= async () =>{
     try

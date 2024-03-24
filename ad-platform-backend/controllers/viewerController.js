@@ -56,7 +56,7 @@ const loginViewer = async (req, res) => {
     if (viewer && (await bcrypt.compare(password, viewer.password))) {
         const token = jwt.sign(
             { id: viewer._id },
-            process.env.SECRET-KEY,
+            process.env.SECRETKEY,
             {
                 expiresIn: '1d',
             }

@@ -14,7 +14,7 @@ const validateToken = (req, res, next) => {
             }
             console.log(token);
         }
-        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        const decoded = jwt.verify(token, process.env.SECRETKEY);
         req.userId = decoded.id; //since we are using the same token for both business and viewer
         next();
     }
